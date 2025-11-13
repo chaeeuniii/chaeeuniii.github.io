@@ -1,48 +1,792 @@
-안녕하세요! 다음 사양에 맞춰 포트폴리오 웹사이트를 제작해주세요.
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>김채은 | UX/UI Designer Portfolio</title>
+    <style>
+        /* ===== 기본 리셋 및 변수 설정 ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-## 기본 정보:
-- 이름: 김채은 / Chaeeun Kim
-- 직업: UX/UI DESIGNER
-- 한 줄 소개: 새로운 가능성에 눈뜨게 돕는 디자이너입니다.
+        :root {
+            /* 클래식 블루 색상 테마 */
+            --color-primary: #1565C0;
+            --color-primary-light: #1976D2;
+            --color-primary-lighter: #42A5F5;
+            --color-primary-pale: #E3F2FD;
+            --color-text: #212121;
+            --color-text-light: #757575;
+            --color-white: #FFFFFF;
+            --color-bg: #FAFAFA;
+        }
 
-## 레이아웃: A1 - 클래식 스크롤
-가장 보편적인 레이아웃으로, 위에서 아래로 자연스럽게 스크롤하며 콘텐츠를 탐색합니다.
-- 직관적인 사용자 경험
-- 모든 디바이스에서 안정적
-- 콘텐츠 양이 많을 때 적합
-- 빠른 제작 가능
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--color-text);
+            line-height: 1.6;
+            background: var(--color-white);
+        }
 
-## 색상 테마: B8 - 클래식 블루
-파란색 계열로 전문적이고 신뢰감 있는 인상을 전달합니다.
-주요 색상: #1565C0, #1976D2, #42A5F5, #E3F2FD
-- 전문적인 느낌
-- 신뢰감 형성
-- 보편적으로 선호
-- 기업 포트폴리오에 적합
+        /* ===== 내비게이션 바 ===== */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: var(--color-white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
 
-## 인터랙션: C1 - 미니멀 서틀
-마우스를 올렸을 때 미세하게 움직이거나 색이 변하는 절제된 인터랙션입니다.
-- 방해받지 않는 경험
-- 전문적인 느낌
-- 콘텐츠에 집중
-- 미니멀 디자인과 잘 어울림
+        nav.scrolled {
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.15);
+        }
 
-## 필수 포함 섹션:
-1. 히어로 섹션 (이름, 직업, 간단한 소개)
-2. About Me (자기소개, 사진)
-3. Skills (보유 기술)
-4. Projects (프로젝트 3-4개, 각각 이미지와 설명)
-5. Contact (이메일, 소셜 미디어 링크)
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-## 기술 요구사항:
-- 순수 HTML, CSS, JavaScript 사용 (외부 라이브러리 최소화)
-- 반응형 디자인 (모바일, 태블릿, 데스크톱)
-- GitHub Pages 배포 가능하도록 index.html 단일 파일
-- 모든 코드는 주석과 함께 제공
-- 이미지는 placeholder 사용 (https://via.placeholder.com)
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--color-primary);
+        }
 
-⚠️ 중요: Footer 섹션에는 반드시 다음 형식으로 작성해주세요:
-© 2025 [입력한 이름]. Powered by AI Portfolio Workshop.
-그리고 "AI Portfolio Workshop" 텍스트에는 https://ai.triz.kr 링크를 연결해주세요.
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
 
-전체 코드를 제공해주세요!
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--color-text);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-menu a:hover {
+            color: var(--color-primary);
+        }
+
+        /* 모바일 메뉴 토글 버튼 */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--color-primary);
+            margin: 3px 0;
+            transition: 0.3s;
+        }
+
+        /* ===== 히어로 섹션 ===== */
+        #hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--color-primary-pale) 0%, var(--color-white) 100%);
+            padding-top: 80px;
+        }
+
+        .hero-content {
+            text-align: center;
+            max-width: 800px;
+            padding: 40px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-image {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 30px;
+            border: 5px solid var(--color-primary);
+            box-shadow: 0 10px 30px rgba(21, 101, 192, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .hero-image:hover {
+            transform: scale(1.05);
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            color: var(--color-primary);
+        }
+
+        .hero-subtitle {
+            font-size: 1.3rem;
+            color: var(--color-text-light);
+            margin-bottom: 15px;
+        }
+
+        .hero-title {
+            font-size: 1.8rem;
+            color: var(--color-primary-light);
+            font-weight: 600;
+            letter-spacing: 3px;
+            margin-bottom: 25px;
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            color: var(--color-text);
+            line-height: 1.8;
+        }
+
+        .hero-cta {
+            margin-top: 40px;
+        }
+
+        .btn-primary {
+            display: inline-block;
+            padding: 15px 40px;
+            background: var(--color-primary);
+            color: var(--color-white);
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(21, 101, 192, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: var(--color-primary-light);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(21, 101, 192, 0.4);
+        }
+
+        /* ===== 공통 섹션 스타일 ===== */
+        section {
+            padding: 100px 40px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        section h2 {
+            font-size: 2.8rem;
+            margin-bottom: 20px;
+            color: var(--color-primary);
+            text-align: center;
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--color-primary);
+            border-radius: 2px;
+        }
+
+        .section-description {
+            text-align: center;
+            color: var(--color-text-light);
+            font-size: 1.1rem;
+            margin-bottom: 60px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ===== About Me 섹션 ===== */
+        #about {
+            background: var(--color-bg);
+        }
+
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-image {
+            width: 100%;
+            max-width: 350px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .about-image:hover {
+            transform: scale(1.03);
+        }
+
+        .about-text p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            color: var(--color-text);
+        }
+
+        /* ===== Skills 섹션 ===== */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .skill-card {
+            background: var(--color-white);
+            padding: 40px 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .skill-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--color-primary-lighter);
+            box-shadow: 0 10px 30px rgba(21, 101, 192, 0.15);
+        }
+
+        .skill-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: var(--color-primary);
+        }
+
+        .skill-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--color-primary);
+        }
+
+        .skill-card ul {
+            list-style: none;
+        }
+
+        .skill-card li {
+            padding: 10px 0;
+            color: var(--color-text);
+            position: relative;
+            padding-left: 25px;
+            transition: color 0.3s ease;
+        }
+
+        .skill-card li:hover {
+            color: var(--color-primary);
+        }
+
+        .skill-card li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--color-primary);
+            font-weight: bold;
+        }
+
+        /* ===== Projects 섹션 ===== */
+        #projects {
+            background: var(--color-bg);
+        }
+
+        .projects-grid {
+            display: grid;
+            gap: 60px;
+            margin-top: 60px;
+        }
+
+        .project-card {
+            background: var(--color-white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(21, 101, 192, 0.2);
+        }
+
+        .project-image-container {
+            overflow: hidden;
+            height: 350px;
+        }
+
+        .project-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .project-card:hover .project-image {
+            transform: scale(1.1);
+        }
+
+        .project-info {
+            padding: 40px;
+        }
+
+        .project-number {
+            font-size: 0.9rem;
+            color: var(--color-primary);
+            font-weight: 600;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .project-info h3 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--color-primary);
+        }
+
+        .project-info p {
+            color: var(--color-text);
+            line-height: 1.8;
+            margin-bottom: 20px;
+            font-size: 1.05rem;
+        }
+
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .tag {
+            background: var(--color-primary-pale);
+            color: var(--color-primary);
+            padding: 8px 18px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .tag:hover {
+            background: var(--color-primary);
+            color: var(--color-white);
+        }
+
+        /* ===== Contact 섹션 ===== */
+        #contact {
+            text-align: center;
+            background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+            color: var(--color-white);
+            padding: 100px 40px;
+        }
+
+        #contact h2 {
+            color: var(--color-white);
+        }
+
+        #contact h2::after {
+            background: var(--color-white);
+        }
+
+        .contact-description {
+            color: var(--color-white);
+            font-size: 1.2rem;
+            margin-bottom: 50px;
+            opacity: 0.9;
+        }
+
+        .contact-links {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+
+        .contact-link {
+            display: inline-block;
+            padding: 15px 35px;
+            background: var(--color-white);
+            color: var(--color-primary);
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .contact-link:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            background: var(--color-primary-pale);
+        }
+
+        /* ===== Footer ===== */
+        footer {
+            background: var(--color-text);
+            color: var(--color-white);
+            text-align: center;
+            padding: 30px 40px;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        footer a {
+            color: var(--color-primary-lighter);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: var(--color-white);
+        }
+
+        /* ===== 애니메이션 ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== 반응형 디자인 ===== */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 15px 20px;
+            }
+
+            .nav-menu {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: var(--color-white);
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                padding-top: 50px;
+                transition: left 0.3s ease;
+                box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-title {
+                font-size: 1.3rem;
+            }
+
+            .hero-description {
+                font-size: 1rem;
+            }
+
+            section {
+                padding: 60px 20px;
+            }
+
+            section h2 {
+                font-size: 2rem;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
+            .about-image {
+                max-width: 250px;
+                margin: 0 auto;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .project-image-container {
+                height: 250px;
+            }
+
+            .project-info {
+                padding: 30px 20px;
+            }
+
+            .project-info h3 {
+                font-size: 1.5rem;
+            }
+
+            .contact-links {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .contact-link {
+                width: 80%;
+                max-width: 300px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .hero-image {
+                width: 150px;
+                height: 150px;
+            }
+
+            section h2 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 내비게이션 바 -->
+    <nav id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">KCE</div>
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#hero">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 히어로 섹션 -->
+    <section id="hero">
+        <div class="hero-content">
+            <img src="https://via.placeholder.com/200" alt="김채은 프로필" class="hero-image">
+            <h1>김채은</h1>
+            <p class="hero-subtitle">Chaeeun Kim</p>
+            <p class="hero-title">UX/UI DESIGNER</p>
+            <p class="hero-description">새로운 가능성에 눈뜨게 돕는 디자이너입니다.</p>
+            <div class="hero-cta">
+                <a href="#projects" class="btn-primary">프로젝트 보기</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Me 섹션 -->
+    <section id="about">
+        <h2>About Me</h2>
+        <p class="section-description">사용자 경험을 최우선으로 생각하는 디자이너</p>
+        <div class="about-content">
+            <img src="https://via.placeholder.com/350x450" alt="김채은" class="about-image">
+            <div class="about-text">
+                <p>안녕하세요! 사용자 경험을 최우선으로 생각하는 UX/UI 디자이너 김채은입니다.</p>
+                <p>저는 사람들이 기술을 통해 새로운 가능성을 발견하고, 더 나은 경험을 할 수 있도록 돕는 것에 큰 보람을 느낍니다. 사용자 리서치부터 프로토타이핑, 최종 디자인까지 전 과정을 아우르며 의미 있는 디지털 경험을 만들어갑니다.</p>
+                <p>디자인은 단순히 예쁜 것을 만드는 것이 아니라, 문제를 해결하고 가치를 전달하는 과정이라고 믿습니다. 항상 사용자의 입장에서 생각하고, 데이터에 기반한 디자인 결정을 내리려 노력합니다.</p>
+                <p>협업과 소통을 중요하게 생각하며, 개발팀, 기획팀과 긴밀히 협력하여 최상의 결과물을 만들어내는 것을 즐깁니다.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills 섹션 -->
+    <section id="skills">
+        <h2>Skills</h2>
+        <p class="section-description">전문성과 열정으로 최고의 결과를 만들어냅니다</p>
+        <div class="skills-grid">
+            <div class="skill-card">
+                <div class="skill-icon">🎨</div>
+                <h3>UX Design</h3>
+                <ul>
+                    <li>사용자 리서치 & 인터뷰</li>
+                    <li>페르소나 & 사용자 여정 맵</li>
+                    <li>와이어프레임 & 프로토타이핑</li>
+                    <li>사용성 테스트</li>
+                    <li>정보 구조 설계</li>
+                </ul>
+            </div>
+            <div class="skill-card">
+                <div class="skill-icon">💎</div>
+                <h3>UI Design</h3>
+                <ul>
+                    <li>비주얼 디자인</li>
+                    <li>반응형 웹 디자인</li>
+                    <li>디자인 시스템 구축</li>
+                    <li>타이포그래피 & 컬러 시스템</li>
+                    <li>모바일 앱 디자인</li>
+                </ul>
+            </div>
+            <div class="skill-card">
+                <div class="skill-icon">🛠️</div>
+                <h3>Tools</h3>
+                <ul>
+                    <li>Figma (Advanced)</li>
+                    <li>Adobe XD</li>
+                    <li>Sketch</li>
+                    <li>Photoshop & Illustrator</li>
+                    <li>InVision & Zeplin</li>
+                </ul>
+            </div>
+            <div class="skill-card">
+                <div class="skill-icon">💻</div>
+                <h3>Development</h3>
+                <ul>
+                    <li>HTML5 & CSS3</li>
+                    <li>JavaScript (ES6+)</li>
+                    <li>React 기초</li>
+                    <li>Responsive Design</li>
+                    <li>Git & GitHub</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects 섹션 -->
+    <section id="projects">
+        <h2>Projects</h2>
+        <p class="section-description">사용자 중심의 혁신적인 디자인 프로젝트</p>
+        <div class="projects-grid">
+            <!-- 프로젝트 1 -->
+            <div class="project-card">
+                <div class="project-image-container">
+                    <img src="https://via.placeholder.com/1000x400/1565C0/FFFFFF?text=E-Commerce+Redesign" alt="프로젝트 1" class="project-image">
+                </div>
+                <div class="project-info">
+                    <p class="project-number">PROJECT 01</p>
+                    <h3>이커머스 플랫폼 리디자인</h3>
+                    <p>모바일 중심의 쇼핑 경험을 위한 전면 리디자인 프로젝트입니다. 사용자 리서치를 통해 발견한 주요 페인 포인트를 해결하고, 직관적인 내비게이션과 개선된 검색 기능을 도입하여 구매 전환율을 30% 향상시켰습니다. 개인화된 추천 시스템과 원클릭 결제 기능으로 사용자 만족도를 크게 높였습니다.</p>
+                    <div class="project-tags">
+                        <span class="tag">UX Research</span>
+                        <span class="tag">Mobile First</span>
+                        <span class="tag">Prototyping</span>
+                        <span class="tag">A/B Testing</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 프로젝트 2 -->
+            <div class="project-card">
+                <div class="project-image-container">
+                    <img src="https://via.placeholder.com/1000x400/1976D2/FFFFFF?text=Healthcare+App" alt="프로젝트 2" class="project-image">
+                </div>
+                <div class="project-info">
+                    <p class="project-number">PROJECT 02</p>
+                    <h3>헬스케어 모바일 앱</h3>
+                    <p>건강 관리를 위한 직관적인 인터페이스 설계 프로젝트입니다. 복잡한 의료 정보를 사용자 친화적으로 시각화하고, 일상적인 건강 관리를 쉽게 만들었습니다. 데이터 대시보드, 복약 알림, 건강 목표 추적 기능을 통해 사용자의 건강 관리 루틴을 효과적으로 지원합니다.</p>
+                    <div class="project-tags">
+                        <span class="tag">Mobile App</span>
+                        <span class="tag">Data Visualization</span>
+                        <span class="tag">UI Design</span>
+                        <span class="tag">Accessibility</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 프로젝트 3 -->
+            <div class="project-card">
+                <div class="project-image-container">
+                    <img src="https://via.placeholder.com/1000x400/42A5F5/FFFFFF?text=Design+System" alt="프로젝트 3" class="project-image">
+                </div>
+                <div class="project-info">
+                    <p class="project-number">PROJECT 03</p>
+                    <h3>디자인 시스템 구축</h3>
+                    <p>일관된 사용자 경험을 위한 종합 디자인 시스템 개발 프로젝트입니다. 재사용 가능한 컴포넌트 라이브러리, 상세한 스타일 가이드, 디자인 토큰을 구축하여 디자인팀과 개발팀 간의 협업 효율성을 50% 향상시켰습니다. Figma와 Storybook을 활용한 체계적인 문서화로 확장 가능한 시스템을 만들었습니다.</p>
+                    <div class="project-tags">
+                        <span class="tag">Design System</span>
+                        <span class="tag">Component Library</span>
+                        <span class="tag">Documentation</span>
+                        <span class="tag">Collaboration</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 프로젝트 4 -->
+            <div class="project-card">
+                <div class="project-image-container">
+                    <img src="https://via.placeholder.com/1000x400/E3F2FD/1565C0?text=Education+Platform" alt="프로젝트 4" class="project-image">
+                </div>
+                <div class="project-info">
+                    <p class="project-number">PROJECT 04</p>
+                    <h3>온라인 교육 플랫폼</h3>
+                    <p>학습자 중심의 인터랙티브한 교육 경험 설계 프로젝트입니다. Gamification 요소를 도입하여 학습 참여도를 높이고, 다양한 학습 스타일을 지원하는 유연한 인터페이스를 구현했습니다. 실시간 진도 추적, 맞춤형 학습 경로, 소셜 학습 기능으로 학습 완료율을 40% 향상시켰습니다.</p>
+                    <div class="project-tags">
+                        <span class="tag">EdTech</span>
+                        <span class="tag">Interactive Design</span>
+                        <span class="tag">Gamification</span>
+                        <span class="tag">User Engagement</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact 섹션 -->
+    <section id="contact">
+        <h2>Contact</h2>
+        <p class="contact-description">새로운 프로젝트나 협업 기회에 대해 이야기 나누고 싶으시다면<br>언제든 연락주세요!</p>
+        <div class="contact-links">
+            <a href="mailto:chaeeun@example.com" class="contact-link">📧 Email</a>
+            <a href="https://linkedin.com" target="_blank" class="contact-link">💼 LinkedIn</a>
+            <a href="https://behance.net" target="_blank" class="contact-link">🎨 Behance</a>
+            <a href="https://instagram.com" target="_blank" class="contact-link">📸 Instagram</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2025 김채은. Powered by <a href="https://ai.triz.kr" target="_blank">AI Portfolio Workshop</a>.</p>
+    </footer>
+
+    <script>
+        // 모바일 메뉴 토글
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
+
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+
+        // 메뉴 링크 클릭 시 메뉴 닫기
+        document.querySelectorAll('.nav-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+            });
+        });
+
+        // 스크롤 시 네비게이션 바 스타일 변경
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.
